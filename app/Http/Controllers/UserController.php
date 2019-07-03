@@ -7,7 +7,7 @@ use App\Role;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Gate;
-
+use App\Events\UserRegistered;
 
 class UserController extends Controller
 {
@@ -65,6 +65,8 @@ class UserController extends Controller
             $group->update('admin_id', $user->id);
         }
         $user->save();
+        event(new UserRegistered($user, $password));
+
         return redirect('/users')->with('success', 'User added!');
     }
 

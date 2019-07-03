@@ -9,7 +9,7 @@
 <br/>
 Your email-id is {{$user['email']}}
 <br/>
-Your password is
+Your password is {{$password}}
 </body>
 
 </html>
