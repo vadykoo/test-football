@@ -71,6 +71,7 @@ class RegisterController extends Controller
         ]);
 
         $user->roles()->attach(Role::where('name', 'club_admin')->first());
+
         return $user;
     }
 }

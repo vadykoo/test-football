@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Team;
-use App\User;
+use App\Group;
+use App\Role;
 use Illuminate\Http\Request;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 
-class TeamController extends Controller
+
+class UserController extends Controller
 {
+    public function __construct()
+    {
+        if (Gate::denies('users')) {
+            return redirect()->back();
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +25,8 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::all();
-        return view('teams.index')->with('teams', $teams);
+        $users = User::all();
+        return view('users.index')->with('users', $users);
     }
 
     /**
@@ -27,7 +36,9 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('teams.create');
+        $roles = Role::all();
+        $groups = Group::all();
+        return view('users.create', compact('roles', 'groups'));
     }
 
     /**
@@ -42,11 +53,11 @@ class TeamController extends Controller
             'name'=>'required'
         ]);
 
-        $team = new Team([
+        $user = new User([
             'name' => $request->get('name'),
         ]);
-        $team->save();
-        return redirect('/teams')->with('success', 'Team added!');
+        $user->save();
+        return redirect('/users')->with('success', 'User added!');
     }
 
     /**
@@ -68,8 +79,8 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
-        $team = Team::find($id);
-        return view('teams.edit', compact('team'));
+        $user = User::find($id);
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -85,11 +96,11 @@ class TeamController extends Controller
             'name'=>'required'
         ]);
 
-        $team = Team::find($id);
-        $team->name = $request->get('name');
-        $team->save();
+        $user = User::find($id);
+        $user->name = $request->get('name');
+        $user->save();
 
-        return redirect('/teams')->with('success', 'Team updated!');
+        return redirect('/users')->with('success', 'User updated!');
     }
 
     /**
@@ -102,12 +113,12 @@ class TeamController extends Controller
     {
 //        $user = User::find(2);
 //        \Auth::user()->impersonate($user);
-        if (Gate::allows('team-delete')) {
-            $team = Team::find($id);
-            $team->delete();
-            return redirect('/teams')->with('success', 'Team deleted!');
+        if (Gate::allows('users')) {
+            $contact = User::find($id);
+            $contact->delete();
+            return redirect('/users')->with('success', 'User deleted!');
         }else{
-            return redirect('/teams')->withErrors('Not allowed!');
+            return redirect('/users')->withErrors('Not allowed!');
         }
 
     }

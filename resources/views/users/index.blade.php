@@ -5,8 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Teams</div>
-                <a href="{{ route('teams.create')}}" class="btn btn-primary">Create</a>
+                <div class="card-header">Users</div>
+                <a href="{{ route('users.create')}}" class="btn btn-primary">Create</a>
 
                 <div class="card-body">
                     @if (session('success'))
@@ -35,19 +35,19 @@
                                         <th width="15%">Actions</th>
                                         <th width="15%"></th>
                                     </thead>
-                                    @foreach($teams as $team)
+                                    @foreach($users as $user)
                                         <tr class="table-row" style="cursor: pointer">
                                             <td>
-                                                {{$team->id}}
+                                                {{$user->id}}
                                             </td>
                                             <td>
-                                                {{$team->name}}
+                                                {{$user->name}}
                                             </td>
                                             <td>
-                                                <a href="{{ route('teams.edit',$team->id)}}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('users.edit',$user->id)}}" class="btn btn-primary">Edit</a>
                                             </td>
                                             <td>
-                                                <form action="{{ route('teams.destroy', $team->id)}}" method="post">
+                                                <form action="{{ route('users.destroy', $user->id)}}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger" type="submit">Delete</button>

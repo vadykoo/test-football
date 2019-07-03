@@ -2,11 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\UserEvent;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterMail;
 
-class SendCredentialsNotification
+class SendEmailRegisterNotification
 {
     /**
      * Create the event listener.
@@ -21,11 +23,11 @@ class SendCredentialsNotification
     /**
      * Handle the event.
      *
-     * @param  UserEvent  $event
+     * @param  Registered  $event
      * @return void
      */
-    public function handle(UserEvent $event)
+    public function handle(Registered $event)
     {
-        //
+        Mail::to($event->user['email'])->send(new RegisterMail($event->user));
     }
 }

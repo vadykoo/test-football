@@ -25,6 +25,25 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+//        Gate::before(function ($user, $ability) {
+//            if ($user->hasRole('super_admin')) {
+//                return true;
+//            }
+//        });
+
+        Gate::define('team-delete', function ($user) {
+            if($user->hasRole('super_admin')){
+                return true;
+            }else{
+                return false;
+            }
+        });
+        Gate::define('accessSuperAdmin', function ($user) {
+            if($user->hasRole('super_admin')){
+                return true;
+            }else{
+                return false;
+            }
+        });
     }
 }
