@@ -50,12 +50,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'role_id',
         ]);
-
-        $user = new User([
-            'name' => $request->get('name'),
-        ]);
+        $password = $request->get('password');
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = \Hash::make($password);
+        $role = Role::find($request->get('role_id'));
+        $user->roles()->attach($role);
+        if($group_id = $request->get('group_id')) {
+            $group = Group::find($group_id);
+            $group->update('admin_id', $user->id);
+        }
         $user->save();
         return redirect('/users')->with('success', 'User added!');
     }

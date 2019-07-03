@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><a href="{{ route('users.index')}}" class="btn btn-primary"> <-BACK</a>Teams</div>
+                    <div class="card-header"><a href="{{ route('users.index')}}" class="btn btn-primary"> <-BACK</a>Users</div>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -22,6 +22,18 @@
                             <div class="form-group">
                                 <label for="name">Name:</label>
                                 <input type="text" class="form-control" name="name"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" name="email"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="password">password:</label>
+                                <input type="text" class="form-control" name="password"/>
                             </div>
                         </div>
                         <div class="col">

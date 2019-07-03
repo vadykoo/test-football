@@ -1,12 +1,14 @@
 ## Installation
-
+run the command
 ```bash
+git clone https://github.com/vadykoo/test-football.git
 composer install
 ```
-create .env file and database
+create .env file and database and run the commands
 
 ```bash
 php artisan migrate -seed
+php artisan serve
 ```
 
 Open the site and login with
