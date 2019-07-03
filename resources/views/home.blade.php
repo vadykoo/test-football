@@ -15,6 +15,10 @@
                     @endif
 
                         <a href="{{ route('teams.index')}}" >Teams</a>
+                        <br>
+                        @can('accessSuperAdmin')
+                        <a href="{{ route('users.index')}}" >Users</a>
+                        @endcan
                 </div>
             </div>
         </div>
