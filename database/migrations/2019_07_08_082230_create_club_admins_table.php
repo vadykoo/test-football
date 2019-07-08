@@ -19,7 +19,7 @@ class CreateClubAdminsTable extends Migration
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->timestamps();
             $table->foreign('club_id')->references('id')->on('clubs')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
