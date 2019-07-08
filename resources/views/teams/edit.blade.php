@@ -24,7 +24,19 @@
                                 <input type="text" class="form-control" name="name" value="{{$team->name}}" />
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary-outline">Add team</button>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="club_id">Club</label>
+                                <select name="club_id" id="club" class="form-control">
+                                    @foreach($clubs as $id => $club)
+                                        <option value="{{ $club->id }}" @if($team->club_id === $club->id) selected @endif>
+                                            {{$club->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary-outline">Edit team</button>
                     </form>
                 </div>
             </div>

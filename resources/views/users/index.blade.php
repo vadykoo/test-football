@@ -27,16 +27,43 @@
                 <div class="card-body">
                     <div class="panel-heading container-fluid">
                         <div class="container">
+                            <form method="get" action="{{ route('users.index')}}">
+                                @csrf
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" id="search"
+                                                   value="{{ request('search') }}"
+                                                   placeholder="Search name" name="search"
+                                                   type="text" id="search"/>
+                                            <div class="input-group-btn">
+                                                <button type="submit" class="btn btn-warning"
+                                                >
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" value="{{request('field')}}" name="field"/>
+                                </div>
+                            </form>
+
                             <div class="row">
                                 <table class="table table-bordered table-responsive table-striped table-hover ">
                                     <thead>
+                                        <th>Photo</th>
                                         <th width="20%">ID</th>
                                         <th width="50%">Name</th>
                                         <th width="15%">Actions</th>
                                         <th width="15%"></th>
                                     </thead>
                                     @foreach($users as $user)
-                                        <tr class="table-row" style="cursor: pointer">
+                                        <tr class="table-row" style="cursor: pointer" onclick="window.location='{{route('users.show', $user->id)}}';">
+                                            <td>
+                                            @if($user->getFirstMediaUrl())
+                                                <img src="{{$user->getFirstMediaUrl()}}" width="50px" height="50px">
+                                            @endif
+                                            </td>
                                             <td>
                                                 {{$user->id}}
                                             </td>
@@ -47,11 +74,13 @@
                                                 <a href="{{ route('users.edit',$user->id)}}" class="btn btn-primary">Edit</a>
                                             </td>
                                             <td>
+                                                @can('accessSuperAdmin')
                                                 <form action="{{ route('users.destroy', $user->id)}}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger" type="submit">Delete</button>
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
@@ -61,6 +90,7 @@
                     </div>
                 </div>
             </div>
+            {{ $users->links() }}
         </div>
     </div>
 </div>

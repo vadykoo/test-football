@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><a href="{{ route('teams.index')}}" class="btn btn-primary"> <-BACK</a>Teams</div>
+                    <div class="card-header"><a href="{{ route('players.index')}}" class="btn btn-primary"> <-BACK</a>Players</div>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -16,7 +16,7 @@
                             </ul>
                         </div><br />
                     @endif
-                    <form method="post" action="{{ route('teams.store')}}">
+                    <form method="post" action="{{ route('players.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="col">
                             <div class="form-group">
@@ -26,17 +26,23 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="club_id">Club</label>
-                                <select name="club_id" id="club" class="form-control">
-                                    @foreach($clubs as $id => $club)
-                                        <option value="{{ $club->id }}">
-                                            {{$club->name}}
+                                <label for="group_id">Group</label>
+                                <select name="group_id" id="froup" class="form-control">
+                                    @foreach($groups as $id => $group)
+                                        <option value="{{ $group->id }}">
+                                            {{$group->name}}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary-outline">Add team</button>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="image">Photo</label>
+                                <input type="file" name="image" class="form-control">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Create</button>
                     </form>
 
                 </div>

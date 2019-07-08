@@ -21,7 +21,10 @@ Route::impersonate();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/teams', 'TeamController');
+    Route::resource('/players', 'PlayerController');
+    Route::resource('/groups', 'GroupController');
     Route::middleware('can:accessSuperAdmin')->group(function() {
         Route::resource('/users', 'UserController');
+        Route::resource('/clubs', 'ClubController');
     });
 });

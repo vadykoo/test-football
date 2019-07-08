@@ -5,11 +5,16 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Lab404\Impersonate\Models\Impersonate;
-class User extends Authenticatable
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable;
     use Impersonate;
+    use HasMediaTrait;
     /**
      * The attributes that are mass assignable.
      *
@@ -42,21 +47,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function authorizeRoles($roles)
+    public function role()
     {
-        if (is_array($roles)) {
-            return $this->hasAnyRole($roles) ||
-                abort(401, 'This action is unauthorized.');
-        }
-        return $this->hasRole($roles) ||
-            abort(401, 'This action is unauthorized.');
-    }
-    /**
-     * Check multiple roles
-     */
-    public function hasAnyRole($roles)
-    {
-        return null !== $this->roles()->whereIn('name', $roles)->first();
+        $user_role = DB::table('role_user')->where('user_id', $this->id)->first();
+        $role = Role::find($user_role->role_id);
+        return $role;
     }
     /**
      * Check one role

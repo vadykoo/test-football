@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><a href="{{ route('teams.index')}}" class="btn btn-primary"> <-BACK</a>Teams</div>
+                    <div class="card-header"><a href="{{ route('clubs.index')}}" class="btn btn-primary"> <-BACK</a>Clubs</div>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -16,7 +16,7 @@
                             </ul>
                         </div><br />
                     @endif
-                    <form method="post" action="{{ route('teams.store')}}">
+                    <form method="post" action="{{ route('clubs.store')}}">
                         @csrf
                         <div class="col">
                             <div class="form-group">
@@ -24,19 +24,10 @@
                                 <input type="text" class="form-control" name="name"/>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="club_id">Club</label>
-                                <select name="club_id" id="club" class="form-control">
-                                    @foreach($clubs as $id => $club)
-                                        <option value="{{ $club->id }}">
-                                            {{$club->name}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary-outline">Add team</button>
+                        @foreach($users as $user)
+                            <input type="checkbox" name="admins[]" value="{{$user->id}}"/> {{$user->name}} <br>
+                            @endforeach
+                        <button type="submit" class="btn btn-primary-outline">Add club</button>
                     </form>
 
                 </div>

@@ -17,13 +17,11 @@ class CreateGroupsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('team_id')->unsigned();
-            $table->unsignedBigInteger('admin_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('groups', function (Blueprint $table) {
-            $table->foreign('team_id')->references('id')->on('teams');
-            $table->foreign('admin_id')->references('id')->on('users');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
     /**

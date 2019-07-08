@@ -12,20 +12,17 @@ class PlayerTableSeeder extends Seeder
      */
     public function run()
     {
-        $group = \App\Group::where('name', 'Arsenal FC')->first();
         $player = new Player();
         $player->name = 'Hector Bellerin';
-        $player->group_id = $group->id;
+        $player->group_id = 1;
         $player->save();
-        $group = \App\Group::where('name', 'Bayern Munich')->first();
         $player = new Player();
         $player->name = ' James Rodriguez';
-        $player->group_id = $group->id;
+        $player->group_id = 2;
         $player->save();
-        $group = \App\Group::where('name', 'Chelsea FC')->first();
         $player = new Player();
         $player->name = 'David Luiz';
-        $player->group_id = $group->id;
+        $player->group_id = 3;
         $player->save();
 
     }

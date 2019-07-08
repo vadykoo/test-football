@@ -5,8 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Teams</div>
-                <a href="{{ route('teams.create')}}" class="btn btn-primary">Create</a>
+                <div class="card-header">Players</div>
+                <a href="{{ route('players.create')}}" class="btn btn-primary">Create</a>
 
                 <div class="card-body">
                     @if (session('success'))
@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <div class="panel-heading container-fluid">
                         <div class="container">
-                            <form method="get" action="{{ route('teams.index')}}">
+                            <form method="get" action="{{ route('players.index')}}">
                                 @csrf
                                 <div class="row">
                                     <div class="form-group">
@@ -47,28 +47,35 @@
                                     <input type="hidden" value="{{request('field')}}" name="field"/>
                                 </div>
                             </form>
+
                             <div class="row">
                                 <table class="table table-bordered table-responsive table-striped table-hover ">
                                     <thead>
+                                        <th>Photo</th>
                                         <th width="20%">ID</th>
                                         <th width="50%">Name</th>
                                         <th width="15%">Actions</th>
                                         <th width="15%"></th>
                                     </thead>
-                                    @foreach($teams as $team)
-                                        <tr class="table-row" style="cursor: pointer" onclick="window.location='{{route('teams.show', $team->id)}}';">
+                                    @foreach($players as $player)
+                                        <tr class="table-row" style="cursor: pointer" onclick="window.location='{{route('players.show', $player->id)}}';">
                                             <td>
-                                                {{$team->id}}
+                                            @if($player->getFirstMediaUrl())
+                                                <img src="{{$player->getFirstMediaUrl()}}" width="50px" height="50px">
+                                            @endif
                                             </td>
                                             <td>
-                                                {{$team->name}}
+                                                {{$player->id}}
                                             </td>
                                             <td>
-                                                <a href="{{ route('teams.edit',$team->id)}}" class="btn btn-primary">Edit</a>
+                                                {{$player->name}}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('players.edit',$player->id)}}" class="btn btn-primary">Edit</a>
                                             </td>
                                             <td>
                                                 @can('accessSuperAdmin')
-                                                <form action="{{ route('teams.destroy', $team->id)}}" method="post">
+                                                <form action="{{ route('players.destroy', $player->id)}}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger" type="submit">Delete</button>
@@ -83,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            {{ $teams->links() }}
+            {{ $players->links() }}
         </div>
     </div>
 </div>

@@ -11,21 +11,15 @@ use App\Events\UserRegistered;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        if (Gate::denies('users')) {
-            return redirect()->back();
-        }
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $search = $request->get('search');
+        $users = User::where('name', 'like', '%' . $search . '%')->paginate(5);
         return view('users.index')->with('users', $users);
     }
 
@@ -53,18 +47,19 @@ class UserController extends Controller
             'name'=>'required',
             'role_id',
         ]);
+
         $password = $request->get('password');
         $user = new User();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->password = \Hash::make($password);
+        $user->save();
         $role = Role::find($request->get('role_id'));
         $user->roles()->attach($role);
-        if($group_id = $request->get('group_id')) {
-            $group = Group::find($group_id);
-            $group->update('admin_id', $user->id);
+        if($request->has('image')) {
+            $user->addMediaFromRequest('image')->toMediaCollection();
         }
-        $user->save();
+
         event(new UserRegistered($user, $password));
 
         return redirect('/users')->with('success', 'User added!');
@@ -78,7 +73,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -103,12 +99,23 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'email'=>'required',
         ]);
 
         $user = User::find($id);
         $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        if($request->get('password')) {
+            $user->password = \Hash::make($request->get('password'));
+        }
         $user->save();
+        $role = Role::find($request->get('role_id'));
+        $user->roles()->attach($role);
+        if($request->hasfile('image')) {
+            $user->clearMediaCollection();
+            $user->addMediaFromRequest('image')->toMediaCollection();
+        }
 
         return redirect('/users')->with('success', 'User updated!');
     }
@@ -123,7 +130,7 @@ class UserController extends Controller
     {
 //        $user = User::find(2);
 //        \Auth::user()->impersonate($user);
-        if (Gate::allows('users')) {
+        if (Gate::allows('accessSuperAdmin')) {
             $contact = User::find($id);
             $contact->delete();
             return redirect('/users')->with('success', 'User deleted!');

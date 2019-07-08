@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><a href="{{ route('teams.index')}}" class="btn btn-primary"> <-BACK</a>Teams</div>
+                    <div class="card-header"><a href="{{ route('groups.index')}}" class="btn btn-primary"> <-BACK</a>Groups</div>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -16,7 +16,7 @@
                             </ul>
                         </div><br />
                     @endif
-                    <form method="post" action="{{ route('teams.store')}}">
+                    <form method="post" action="{{ route('groups.store')}}">
                         @csrf
                         <div class="col">
                             <div class="form-group">
@@ -26,17 +26,17 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="club_id">Club</label>
-                                <select name="club_id" id="club" class="form-control">
-                                    @foreach($clubs as $id => $club)
-                                        <option value="{{ $club->id }}">
-                                            {{$club->name}}
+                                <label for="team_id">Team</label>
+                                <select name="team_id" id="team" class="form-control">
+                                    @foreach(\App\Team::all() as $id => $team)
+                                        <option value="{{ $team->id }}">
+                                            {{$team->name}}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary-outline">Add team</button>
+                        <button type="submit" class="btn btn-primary-outline">Add group</button>
                     </form>
 
                 </div>

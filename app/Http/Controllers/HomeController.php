@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Gate;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = User::find(2);
+        \Auth::user()->impersonate($user);
+        if (Gate::allows('accessSuperAdmin')) {
+            $activities = Activity::all()->reverse();
+            }else{
+            $activities = [];
+        }
+        return view('home')->with('activities', $activities);
     }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
-use App\Team;
-use App\User;
 use Illuminate\Http\Request;
+use App\Group;
 use Illuminate\Support\Facades\Gate;
 
-class TeamController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +16,8 @@ class TeamController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $teams = Team::where('name', 'like', '%' . $search . '%')->paginate(5);
-        return view('teams.index')->with('teams', $teams);
+        $groups = Group::where('name', 'like', '%' . $search . '%')->paginate(5);
+        return view('groups.index')->with('groups', $groups);
     }
 
     /**
@@ -29,8 +27,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        $clubs = Club::all();
-        return view('teams.create')->with('clubs', $clubs);
+        return view('groups.create');
     }
 
     /**
@@ -43,15 +40,15 @@ class TeamController extends Controller
     {
         $request->validate([
             'name'   =>'required',
-            'club_id'=>'required'
+            'team_id'=>'required'
         ]);
 
-        $team = new Team([
+        $group = new Group([
             'name' => $request->get('name'),
-            'club_id' => $request->get('club_id'),
+            'team_id' => $request->get('team_id'),
         ]);
-        $team->save();
-        return redirect('/teams')->with('success', 'Team added!');
+        $group->save();
+        return redirect('/groups')->with('success', 'Group added!');
     }
 
     /**
@@ -62,8 +59,8 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        $team = Team::find($id);
-        return view('teams.show', compact('team'));
+        $group = Group::find($id);
+        return view('groups.show', compact('group'));
     }
 
     /**
@@ -74,9 +71,8 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
-        $clubs = Club::all();
-        $team = Team::find($id);
-        return view('teams.edit', compact('team', 'clubs'));
+        $group = Group::find($id);
+        return view('groups.edit', compact('group'));
     }
 
     /**
@@ -92,11 +88,11 @@ class TeamController extends Controller
             'name'=>'required'
         ]);
 
-        $team = Team::find($id);
-        $team->name = $request->get('name');
-        $team->save();
+        $group = Group::find($id);
+        $group->name = $request->get('name');
+        $group->save();
 
-        return redirect('/teams')->with('success', 'Team updated!');
+        return redirect('/groups')->with('success', 'Group updated!');
     }
 
     /**
@@ -109,12 +105,12 @@ class TeamController extends Controller
     {
 //        $user = User::find(2);
 //        \Auth::user()->impersonate($user);
-        if (Gate::allows('team-delete')) {
-            $team = Team::find($id);
-            $team->delete();
-            return redirect('/teams')->with('success', 'Team deleted!');
+        if (Gate::allows('accessSuperAdmin')) {
+            $group = Group::find($id);
+            $group->delete();
+            return redirect('/groups')->with('success', 'Group deleted!');
         }else{
-            return redirect('/teams')->withErrors('Not allowed!');
+            return redirect('/groups')->withErrors('Not allowed!');
         }
 
     }

@@ -5,8 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Teams</div>
-                <a href="{{ route('teams.create')}}" class="btn btn-primary">Create</a>
+                <div class="card-header">Clubs</div>
+                @can('accessSuperAdmin')
+                    <a href="{{ route('clubs.create')}}" class="btn btn-primary">Create</a>
+                @endcan
 
                 <div class="card-body">
                     @if (session('success'))
@@ -27,7 +29,7 @@
                 <div class="card-body">
                     <div class="panel-heading container-fluid">
                         <div class="container">
-                            <form method="get" action="{{ route('teams.index')}}">
+                            <form method="get" action="{{ route('clubs.index')}}">
                                 @csrf
                                 <div class="row">
                                     <div class="form-group">
@@ -55,20 +57,22 @@
                                         <th width="15%">Actions</th>
                                         <th width="15%"></th>
                                     </thead>
-                                    @foreach($teams as $team)
-                                        <tr class="table-row" style="cursor: pointer" onclick="window.location='{{route('teams.show', $team->id)}}';">
+                                    @foreach($clubs as $club)
+                                        <tr class="table-row" style="cursor: pointer" onclick="window.location='{{route('clubs.show', $club->id)}}';">
                                             <td>
-                                                {{$team->id}}
+                                                {{$club->id}}
                                             </td>
                                             <td>
-                                                {{$team->name}}
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('teams.edit',$team->id)}}" class="btn btn-primary">Edit</a>
+                                                {{$club->name}}
                                             </td>
                                             <td>
                                                 @can('accessSuperAdmin')
-                                                <form action="{{ route('teams.destroy', $team->id)}}" method="post">
+                                                <a href="{{ route('clubs.edit',$club->id)}}" class="btn btn-primary">Edit</a>
+                                                @endcan
+                                            </td>
+                                            <td>
+                                                @can('accessSuperAdmin')
+                                                <form action="{{ route('clubs.destroy', $club->id)}}" method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger" type="submit">Delete</button>
@@ -83,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            {{ $teams->links() }}
+            {{ $clubs->links() }}
         </div>
     </div>
 </div>

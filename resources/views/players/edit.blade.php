@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><a href="{{ route('users.index')}}" class="btn btn-primary"> <-BACK</a>Users</div>
+                    <div class="card-header"><a href="{{ route('players.index')}}" class="btn btn-primary"> <-BACK</a>Players</div>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -15,25 +15,13 @@
                             </ul>
                         </div><br />
                     @endif
-                    <form method="post" action="{{ route('users.update',$user->id)}}" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('players.update',$player->id)}}" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                         <div class="col">
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" class="form-control" name="name" value="{{$user->name}}" />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" name="email" value="{{$user->email}}"/>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="password">password:</label>
-                                <input type="text" class="form-control" name="password"/>
+                                <input type="text" class="form-control" name="name" value="{{$player->name}}" />
                             </div>
                         </div>
                         <div class="col">
@@ -44,11 +32,11 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="role_id">Role</label>
-                                <select name="role_id" id="role" class="form-control">
-                                    @foreach(\App\Role::all() as $id => $role)
-                                        <option value="{{ $role->id }}">
-                                            {{$role->description}}
+                                <label for="group_id">Group</label>
+                                <select name="group_id" id="froup" class="form-control">
+                                    @foreach($groups as $id => $group)
+                                        <option value="{{ $group->id }} @if($group->id === $player->group_id) selected @endif">
+                                            {{$group->name}} ({{\App\Club::find($group->club_id)->name}})
                                         </option>
                                     @endforeach
                                 </select>

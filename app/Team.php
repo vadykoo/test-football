@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
     protected $fillable = [
-      'name'
+      'name', 'club_id'
     ];
     /**
      * Get Player Groups for Team

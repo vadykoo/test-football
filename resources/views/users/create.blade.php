@@ -16,7 +16,7 @@
                             </ul>
                         </div><br />
                     @endif
-                    <form method="post" action="{{ route('users.store')}}">
+                    <form method="post" action="{{ route('users.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="col">
                             <div class="form-group">
@@ -41,7 +41,7 @@
                                 <label for="role_id">Role</label>
                                 <select name="role_id" id="role" class="form-control">
                                     @foreach($roles as $id => $role)
-                                        <option value="{{ $id }}">
+                                        <option value="{{ $role->id }}">
                                             {{$role->description}}
                                         </option>
                                     @endforeach
@@ -50,17 +50,23 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="group_id">Group</label>
-                                <select name="group_id" id="group" class="form-control">
-                                    @foreach($groups as $id => $group)
-                                        <option value="{{ $id }}">
-                                            {{$group->name}}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label for="image">Photo</label>
+                                <input type="file" name="image" class="form-control">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary-outline">Create user</button>
+                        {{--<div class="col">--}}
+                            {{--<div class="form-group">--}}
+                                {{--<label for="group_id">Group</label>--}}
+                                {{--<select name="group_id" id="group" class="form-control">--}}
+                                    {{--@foreach($groups as $id => $group)--}}
+                                        {{--<option value="{{ $group->id }}">--}}
+                                            {{--{{$group->name}}--}}
+                                        {{--</option>--}}
+                                    {{--@endforeach--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        <button type="submit" class="btn btn-success">Create</button>
                     </form>
 
                 </div>

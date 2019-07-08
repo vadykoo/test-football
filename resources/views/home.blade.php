@@ -14,11 +14,38 @@
                         </div>
                     @endif
 
-                        <a href="{{ route('teams.index')}}" >Teams</a>
-                        <br>
+                        <div><a href="{{ route('teams.index')}}" >Teams</a></div>
+                        <div><a href="{{ route('groups.index')}}" >Groups</a></div>
+                        <div><a href="{{ route('players.index')}}" >Players</a></div>
                         @can('accessSuperAdmin')
-                        <a href="{{ route('users.index')}}" >Users</a>
+                            <div><a href="{{ route('clubs.index')}}" >Clubs</a></div>
+                            <div><a href="{{ route('users.index')}}" >Users</a></div>
+                        <div class="row">
+                            <h2>Activity                           (clubs, users, players)
+                            </h2>
+                            <table class="table table-bordered table-responsive table-striped table-hover ">
+                                <thead>
+                                <th width="10%">ID</th>
+                                <th >Action</th>
+                                <th >created at</th>
+                                </thead>
+                                @foreach($activities as $activity)
+                                    <tr class="table-row">
+                                        <td>
+                                            {{$activity->id}}
+                                        </td>
+                                        <td>
+                                            {{$activity->description}}
+                                        </td>
+                                        <td>
+                                            {{$activity->created_at}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
                         @endcan
+
                 </div>
             </div>
         </div>
