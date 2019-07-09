@@ -26,8 +26,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::find(2);
-        \Auth::user()->impersonate($user);
         if (Gate::allows('accessSuperAdmin')) {
             $activities = Activity::all()->reverse();
             }else{
